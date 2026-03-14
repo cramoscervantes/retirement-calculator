@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retirement Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <div class="calculator">
+            <h1>🏦 Retirement Calculator</h1>
+
+            <!-- Current Age -->
+            <div class="form-group">
+                <label for="currentAge">Current Age</label>
+                <input type="number" id="currentAge" placeholder="e.g. 25" min="18" max="80">
+            </div>
+
+            <!-- Annual Pre-Tax Income -->
+            <div class="form-group">
+                <label for="currentIncome">Annual Pre-Tax Income</label>
+                <input type="number" id="currentIncome" placeholder="e.g. 60000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="retirementAge">Retirement Age</label>
+                <input type="number" id="retirementAge" placeholder="e.g. 65" min="30" max="90">
+            </div>
+
+            <div class="form-group">
+                <label for="currentSavings">Current Savings ($)</label>
+                <input type="number" id="currentSavings" placeholder="e.g. 5000" min="0"> 
+            </div>
+
+            <div class="form-group">
+                <label for="monthlyContribution">Monthly Contribution ($)</label>
+                <input type="number" id="monthlyContribution" placeholder="e.g. 500" min="0">
+            </div>
+
+            <!-- Seperate Returns for Pre Retirement and Post Retirement -->
+            <div class="form-group">
+                <label for="preReturnRate">Pre-Retirement Rate of Return (%)</label>
+                <input type="number" id="preReturnRate" placeholder="e.g. 7" min="0" max="30">
+            </div>
+
+            <div class="form-group">
+                <label for="postReturnRate">Post-Retirement Rate of Return (%)</label>
+                <input type="number" id="postReturnRate" placeholder="e.g. 5" min="0" max="30">
+            </div>
+
+            <div class="form-group">
+                <label for="inflationRate">Expected Inflation Rate (%)</label>
+                <input type="number" id="inflationRate" placeholder="e.g. 3" min="0" max="15">
+            </div>
+
+            <div class="form-group">
+                <label for="lifeExpectancy">Life Expectancy (age)</label>
+                <input type="number" id="lifeExpectancy" placeholder="e.g. 95" min="60" max="110">
+            </div>
+
+            <div class="form-group">
+                <label for="retirementBudget">Monthly Budget in Retirement (% of current income)</label>
+                <input type="number" id="retirementBudget" placeholder="e.g. 80" min="0" max="100">
+            </div>
+
+            <div class="form-group">
+                <label for="otherIncome">Other Monthly Retirement Income ($)</label>
+                <input type="number" id="otherIncome" placeholder="e.g. 1500 (Social Security, Pensions)" min="0">
+            </div>
+
+            <!-- Calculate button-->
+            <button onclick="calculate()">Calculate Retirement Savings</button>
+            <!-- Clear Button -->
+            <button class="clear-btn" onclick="clearForm()">Clear</button>
+
+            <div class="results" id="results">
+                <div class="result-item">
+                    <span>Years Until Retirement:</span>
+                    <span class="result-value" id="yearsResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Total Contributions:</span>
+                    <span class="result-value" id="contributionsResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Interest Earned:</span>
+                    <span class="result-value" id="interestResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Total Savings at Retirement:</span>
+                    <span class="result-value" id="totalResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Inflation-Adjusted Savings (Today's $):</span>
+                    <span class="result-value" id="inflationAdjustedResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Sustainable Monthly Withdrawl:</span>
+                    <span class="result-value" id="monthlyWithdrawalResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Monthly Income Needed at Retirement:</span>
+                    <span class="result-value" id="monthlyNeedResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Monthly Surplus / Deficit:</span>
+                    <span class="result-value" id="surplusDeficitResult"></span>
+                </div>
+                <div class="result-item">
+                    <span>Retirement Readiness:</span>
+                    <span class="result-value" id="sufficiencyResult"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Container-->
+        <div class="chart-panel" id="chartPanel">
+            <h2>Savings Growth Over Time</h2>
+
+            <!-- Chart Toggles-->
+            <div class="chart-toggles">
+                <label class="toggle-label">
+                    <input type="checkbox" id="toggleProjected" checked>
+                    <span class="toggle-dot projected"></span>
+                    Projected Balance
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="togglePurchasing" checked>
+                    <span class="toggle-dot purchasing"></span>
+                    Purchasing Power (Today's $)
+                </label>
+                <label class="toggle-label">
+                    <input type="checkbox" id="toggleContributions" checked>
+                    <span class="toggle-dot contributions"></span>
+                    Your Total Contributions
+                </label>
+            </div>
+            <div class="chart-container">
+                <canvas id="retirementChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
