@@ -117,7 +117,7 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
         const yearsElapsed = age - currentAge;
         const monthsElapsed = yearsElapsed * 12;
 
-        labels.push('Age: ' + age);
+        labels.push(age);
         if (age <= retirementAge) {
             contributionsData.push((currentSavings + (monthlyContribution * monthsElapsed)).toFixed(2));
         } else {

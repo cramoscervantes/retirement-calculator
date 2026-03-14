@@ -1,9 +1,32 @@
+:root {
+  --font-xs: 0.875rem;
+  --font-sm: 0.95rem;
+  --font-md: 1rem;
+  --font-lg: 1.05rem;
+  --font-xl: 1.6rem;
+  --font-2xl: 1.7rem;
+
+  --color-primary: #e94560;
+  --color-primary-hover: #c73652;
+  --color-primary-light: rgba(233, 69, 96, 0.1);
+  --color-accent: #4ecca3;
+  --color-accent-light: rgba(78, 204, 163, 0.1);
+  --color-bg: #f0f2f5;
+  --color-card: #ffffff;
+  --color-input-bg: #f8f9fa;
+  --color-border: #ddd;
+  --color-border-light: #eee;
+  --color-text: #1a1a2e;
+  --color-text-muted: #666;
+  --color-text-subtle: #444;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #f0f2f5;
-  color: #1a1a2e;
+  background: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
   padding: 20px;
 }
@@ -18,7 +41,7 @@ body {
 }
 
 .calculator {
-  background: #ffffff;
+  background: var(--color-card);
   border-radius: 16px;
   padding: 24px;
   width: 380px;
@@ -30,8 +53,8 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 16px;
-  font-size: 1.4rem;
-  color: #e94560;
+  font-size: var(--font-2xl);
+  color: var(--color-primary);
 }
 
 /* Compact two-column form grid */
@@ -54,8 +77,8 @@ h1 {
 label {
   display: block;
   margin-bottom: 4px;
-  font-size: 0.75rem;
-  color: #666;
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -63,17 +86,17 @@ input {
   width: 100%;
   padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #f8f9fa;
-  color: #1a1a2e;
-  font-size: 0.9rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  font-size: var(--font-md);
   transition: border-color 0.2s;
 }
 
 input:focus {
   outline: none;
-  border-color: #e94560;
-  background: #fff;
+  border-color: var(--color-primary);
+  background: var(--color-card);
 }
 
 .btn-row {
@@ -86,56 +109,56 @@ input:focus {
 button {
   width: 100%;
   padding: 10px;
-  background: #e94560;
+  background: var(--color-primary);
   color: white;
-  font-size: 0.95rem;
+  font-size: var(--font-lg);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
 }
 
-button:hover { background: #c73652; }
+button:hover { background: var(--color-primary-hover); }
 
 .clear-btn {
   background: transparent;
-  border: 2px solid #e94560;
-  color: #e94560;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
   margin-top: 12px;
 }
 
 .clear-btn:hover {
-  background: #e94560;
+  background: var(--color-primary);
   color: white;
 }
 
 /*  RESULTS  */
 .results {
   margin-top: 16px;
-  background: #f8f9fa;
+  background: var(--color-input-bg);
   border-radius: 12px;
   padding: 14px;
   display: block;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border-light);
 }
 
 .result-item {
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 0.8rem;
-  color: #444;
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-sm);
+  color: var(--color-text-subtle);
 }
 
 .result-item:last-child { border-bottom: none; }
 .result-value {
-  color: #e94560;
+  color: var(--color-primary);
   font-weight: bold;
 }
 
 .chart-panel {
-  background: #ffffff;
+  background: var(--color-card);
   border-radius: 16px;
   padding: 24px;
   flex: 1;
@@ -148,8 +171,8 @@ button:hover { background: #c73652; }
 .chart-panel h2 {
   text-align: center;
   margin-bottom: 16px;
-  color: #e94560;
-  font-size: 1.3rem;
+  color: var(--color-primary);
+  font-size: var(--font-xl);
 }
 
 .chart-toggles {
@@ -166,13 +189,13 @@ button:hover { background: #c73652; }
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  font-size: 0.85rem;
-  color: #444;
+  font-size: var(--font-sm);
+  color: var(--color-text-subtle);
   user-select: none;
 }
 
 .toggle-label input[type="checkbox"] {
-  accent-color: #e94560;
+  accent-color: var(--color-primary);
   cursor: pointer;
   width: 15px;
   height: 15px;
@@ -185,8 +208,8 @@ button:hover { background: #c73652; }
   display: inline-block;
 }
 
-.toggle-dot.projected { background: #4ecca3; }
-.toggle-dot.purchasing { background: #e94560; }
+.toggle-dot.projected { background: var(--color-accent); }
+.toggle-dot.purchasing { background: var(--color-primary); }
 .toggle-dot.contributions { background: #f5a623; }
 
 .chart-container {
@@ -203,22 +226,22 @@ button:hover { background: #c73652; }
 
 .tab-btn {
     padding: 8px 20px;
-    border: 2px solid #e94560;
+    border: 2px solid var(--color-primary);
     border-radius: 6px;
     background: transparent;
-    color: #e94560;
-    font-size: 0.85rem;
+    color: var(--color-primary);
+    font-size: var(--font-sm);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .tab-btn:hover {
-    background: rgba(233, 69, 96, 0.1);
+    background: var(--color-primary-light);
 }
 
 .tab-btn.active {
-    background: #e94560;
+    background: var(--color-primary);
     color: #fff;
 }
 
@@ -234,19 +257,19 @@ button:hover { background: #c73652; }
     margin-top: 16px;
     padding: 12px 16px;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: var(--font-sm);
     font-weight: 600;
     text-align: center;
 }
 
-.chart-banner-warning {
-    background: rgb(233, 69, 96, 0.1);
-    border: 1px solid #e94560;
-    color: #e94560;
+.chart-banner.warning {
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
 }
 
-.chart-banner.sucess {
-    background: rgba(78, 204, 163, 0.1);
-    border: 1px solid #4ecca3;
+.chart-banner.success {
+    background: var(--color-accent-light);
+    border: 1px solid var(--color-accent);
     color: #2a9d7a;
 }
