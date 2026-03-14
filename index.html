@@ -77,70 +77,83 @@
                 <!-- Clear Button -->
                 <button class="clear-btn" onclick="clearForm()">Clear</button>
             </div>
-            <div class="results" id="results">
-                <div class="result-item">
-                    <span>Years Until Retirement:</span>
-                    <span class="result-value" id="yearsResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Total Contributions:</span>
-                    <span class="result-value" id="contributionsResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Interest Earned:</span>
-                    <span class="result-value" id="interestResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Total Savings at Retirement:</span>
-                    <span class="result-value" id="totalResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Inflation-Adjusted Savings (Today's $):</span>
-                    <span class="result-value" id="inflationAdjustedResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Sustainable Monthly Withdrawl:</span>
-                    <span class="result-value" id="monthlyWithdrawalResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Monthly Income Needed at Retirement:</span>
-                    <span class="result-value" id="monthlyNeedResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Monthly Surplus / Deficit:</span>
-                    <span class="result-value" id="surplusDeficitResult"></span>
-                </div>
-                <div class="result-item">
-                    <span>Retirement Readiness:</span>
-                    <span class="result-value" id="sufficiencyResult"></span>
-                </div>
-            </div>
         </div>
 
         <!-- Chart Container-->
         <div class="chart-panel" id="chartPanel">
             <h2>Savings Growth Over Time</h2>
 
-            <!-- Chart Toggles-->
-            <div class="chart-toggles">
-                <label class="toggle-label">
-                    <input type="checkbox" id="toggleProjected" checked>
-                    <span class="toggle-dot projected"></span>
-                    Projected Balance
-                </label>
-                <label class="toggle-label">
-                    <input type="checkbox" id="togglePurchasing" checked>
-                    <span class="toggle-dot purchasing"></span>
-                    Purchasing Power (Today's $)
-                </label>
-                <label class="toggle-label">
-                    <input type="checkbox" id="toggleContributions" checked>
-                    <span class="toggle-dot contributions"></span>
-                    Your Total Contributions
-                </label>
+            <!-- Tab Button-->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab('graph')">Graph View</button>
+                <button class="tab-btn" onclick="switchTab('summary')">Summary View</button>
             </div>
-            <div class="chart-container">
-                <canvas id="retirementChart"></canvas>
+
+            <!-- Graph Tab-->
+            <div id="tab-graph" class="tab-content">
+                <!-- Chart Toggles-->
+                <div class="chart-toggles">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggleProjected" checked>
+                        <span class="toggle-dot projected"></span>
+                        Projected Balance
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="togglePurchasing" checked>
+                        <span class="toggle-dot purchasing"></span>
+                        Purchasing Power (Today's $)
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggleContributions" checked>
+                        <span class="toggle-dot contributions"></span>
+                        Your Total Contributions
+                    </label>
+                </div>
+                <div class="chart-container">
+                    <canvas id="retirementChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Summary Tab-->
+            <div id="tab-summary" class="tab-content hidden">
+                <div class="results" id="summary-results">
+                    <div class="result-item">
+                        <span>Years Until Retirement:</span>
+                        <span class="result-value" id="yearsResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Contributions:</span>
+                        <span class="result-value" id="contributionsResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Interest Earned:</span>
+                        <span class="result-value" id="interestResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Total Savings at Retirement:</span>
+                        <span class="result-value" id="totalResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Inflation-Adjusted Savings (Today's $):</span>
+                        <span class="result-value" id="inflationAdjustedResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Sustainable Monthly Withdrawal:</span>
+                        <span class="result-value" id="monthlyWithdrawalResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly Income Needed at Retirement:</span>
+                        <span class="result-value" id="monthlyNeedResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Monthly Surplus / Deficit:</span>
+                        <span class="result-value" id="surplusDeficitResult"></span>
+                    </div>
+                    <div class="result-item">
+                        <span>Retirement Readiness:</span>
+                        <span class="result-value" id="sufficiencyResult"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -92,7 +92,8 @@ function calculate() {
     document.getElementById('monthlyNeedResult').textContent = fmt(inflatedMonthlyNeed);
     document.getElementById('surplusDeficitResult').textContent = (isSufficient ? '+' : '-') + fmt(Math.abs(monthlySurplusDeficit));
     document.getElementById('sufficiencyResult').textContent = isSufficient ? 'On Track' : 'Shortfall';
-    document.getElementById('results').style.display = 'block';
+    
+    switchTab('graph');
 
     // Render Chart
     renderChart(currentAge, retirementAge, currentSavings, monthlyContribution, monthlyPreRate, inflationRate);
@@ -101,8 +102,7 @@ function calculate() {
 function clearForm() {
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => input.value = '');
-    document.getElementById('results').style.display =  'none';
-    document.querySelector('chartPanel').style.display = 'none';
+    document.getElementById('chartPanel').style.display = 'none';
 }
 
 function renderChart(currentAge, retirementAge, currentSavings, monthlyContribution, monthlyPreRate, inflationRate) {
@@ -233,4 +233,24 @@ function setuoToggles() {
         retirementChart.data.datasets[2].hidden = !this.checked;
         retirementChart.update();
     });
+}
+
+function switchTab(tab) {
+    document.getElementById('chartPanel').style.display = 'flex';
+
+    const graphTab = document.getElementById('tab-graph');
+    const summaryTab = document.getElementById('tab-summary');
+    const buttons = document.querySelectorAll('.tab-btn');
+
+    if (tab === 'graph') {
+        graphTab.classList.remove('hidden');
+        summaryTab.classList.add('hidden');
+        buttons[0].classList.add('active');
+        buttons[1].classList.remove('active');
+    } else {
+        summaryTab.classList.remove('hidden');
+        graphTab.classList.add('hidden');
+        buttons[1].classList.add('active');
+        buttons[0].classList.remove('active');
+    }
 }
