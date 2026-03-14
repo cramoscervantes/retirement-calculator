@@ -179,25 +179,35 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: { color: '#eee'}
+                    labels: { color: '#1a1a2e'}
                 },
                 tooltip: {
                     callbacks: {
-                        label: (context) => ' s' + Number(context.raw).toLocaleString()
+                        label: (context) => ' $' + Number(context.raw).toLocaleString()
                     }
                 }
             },
             scales: {
                 x: {
-                    ticks: { color: '#aaa' },
-                    grid: { color: '#1a1a2e' }
+                    ticks: { 
+                        color: '#1a1a2e',
+                        callback: function(value, index) {
+                            return index % 5 === 0 ? this.getLabelForValue(value) : '';
+                        },
+                        maxRotation: 0,
+                        autoSkip: false 
+                    },
+                    grid: { display: false }
                 },
                 y: {
                     ticks: {
-                        color: '#aaa',
+                        color: '#1a1a2e',
                         callback: (value) => '$' + Number(value).toLocaleString()
                     },
-                    grid: { color: '#1a1a2e' }
+                    grid: { 
+                        color: '#e8e8e8',
+                        lineWidth: 0.8 
+                    }
                 }
             }
         }
