@@ -96,7 +96,7 @@ function calculate() {
     switchTab('graph');
 
     // Render Chart
-    renderChart(currentAge, retirementAge, currentSavings, monthlyContribution, monthlyPreRate, inflationRate);
+    renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, monthlyContribution, monthlyPreRate, monthlyPostRate, inflatedMonthlyNeed, inflationRate);
 }
 
 function clearForm() {
@@ -105,32 +105,52 @@ function clearForm() {
     document.getElementById('chartPanel').style.display = 'none';
 }
 
-function renderChart(currentAge, retirementAge, currentSavings, monthlyContribution, monthlyPreRate, inflationRate) {
+function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, monthlyContribution, monthlyPreRate, monthlyPostRate, inflatedMonthlyNeed, inflationRate) {
     const labels = [];
     const nominalData = [];
     const inflationAdjustedData = [];
     const contributionsData = [];
 
-    let balance = currentSavings;
+    let postBalance = null;
 
-    for (let age = currentAge; age <= retirementAge; age++) {
+    for (let age = currentAge; age <= lifeExpectancy; age++) {
         const yearsElapsed = age - currentAge;
         const monthsElapsed = yearsElapsed * 12;
 
-        // nominal balance
-        const fvSavings = currentSavings * Math.pow(1 + monthlyPreRate, monthsElapsed);
-        const fvContributions = monthlyPreRate === 0
-            ? monthlyContribution * monthsElapsed
-            : monthlyContribution * ((Math.pow(1 + monthlyPreRate, monthsElapsed) - 1) / monthlyPreRate);
-
-        const nominal = fvSavings + fvContributions;
-        const adjusted = nominal / Math.pow(1 + inflationRate, yearsElapsed);
-        const contributions = currentSavings + (monthlyContribution * monthsElapsed);
-
         labels.push('Age: ' + age);
-        nominalData.push(nominal.toFixed(2));
-        inflationAdjustedData.push(adjusted.toFixed(2));
-        contributionsData.push(contributions.toFixed(2));
+        if (age <= retirementAge) {
+            contributionsData.push((currentSavings + (monthlyContribution * monthsElapsed)).toFixed(2));
+        } else {
+            const monthsToRetirement = (retirementAge - currentAge) * 12;
+            contributionsData.push(null);
+        }
+
+        if (age <= retirementAge) {
+            // Pre-retirement: balance grows
+            const fvSavings = currentSavings * Math.pow(1 + monthlyPreRate, monthsElapsed);
+            const fvContributions = monthlyPreRate === 0
+                ? monthlyContribution * monthsElapsed
+                : monthlyContribution * ((Math.pow(1 + monthlyPreRate, monthsElapsed) - 1) / monthlyPreRate);
+
+            const nominal = fvSavings + fvContributions;
+            const adjusted = nominal / Math.pow(1 + inflationRate, yearsElapsed);
+
+            nominalData.push(nominal.toFixed(2));
+            inflationAdjustedData.push(adjusted.toFixed(2));
+
+            if (age === retirementAge) postBalance = nominal;
+
+        } else {
+            // Post-retirement: balance shrinks with withdrawals
+            for (let m = 0; m < 12; m++) {
+                if (postBalance > 0) {
+                    postBalance = postBalance * (1 + monthlyPostRate) - inflatedMonthlyNeed
+                    if (postBalance < 0) postBalance = 0;
+                }
+            }
+            nominalData.push(postBalance.toFixed(2));
+            inflationAdjustedData.push(null);
+        }
     }
 
     // Clear old chart if one exists before drawing new one
@@ -151,7 +171,6 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4
-
                 },
                 {
                     label: 'Purchasing Power (Today\'s $)',
@@ -161,7 +180,6 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4
-
                 },
                 {
                     label: 'Your Total Contributions',
@@ -179,7 +197,7 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: { color: '#1a1a2e'}
+                    labels: { color: '#1a1a2e' }
                 },
                 tooltip: {
                     callbacks: {
@@ -189,13 +207,13 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
             },
             scales: {
                 x: {
-                    ticks: { 
+                    ticks: {
                         color: '#1a1a2e',
                         callback: function(value, index) {
                             return index % 5 === 0 ? this.getLabelForValue(value) : '';
                         },
                         maxRotation: 0,
-                        autoSkip: false 
+                        autoSkip: false
                     },
                     grid: { display: false }
                 },
@@ -204,19 +222,33 @@ function renderChart(currentAge, retirementAge, currentSavings, monthlyContribut
                         color: '#1a1a2e',
                         callback: (value) => '$' + Number(value).toLocaleString()
                     },
-                    grid: { 
+                    grid: {
                         color: '#e8e8e8',
-                        lineWidth: 0.8 
+                        lineWidth: 0.8
                     }
                 }
             }
         }
-    
     });
 
     document.getElementById('chartPanel').style.display = 'flex';
+
+    // Banner Message
+    const banner = document.getElementById('chartBanner');
+    const depletionAge = nominalData.findIndex(val => parseFloat(val) === 0);
+
+    if (depletionAge !== -1) {
+        const age = currentAge + depletionAge;
+        banner.textContent = '⚠️ Based on your inputs, your savings may run out around Age ' + age + '.';
+        banner.className = 'chart-banner warning';
+    } else {
+        banner.textContent = '✅ Based on your inputs, your savings are on track to last through Age ' + lifeExpectancy + '.';
+        banner.className = 'chart-banner success'
+    }
+
     setuoToggles();
 }
+
 
 function setuoToggles() {
     document.getElementById('toggleProjected').addEventListener('change', function() {
