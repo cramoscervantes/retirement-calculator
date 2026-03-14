@@ -1,5 +1,39 @@
 let retirementChart = null;
 
+const DEFAULTS = {
+  currentAge: 25,
+  retirementAge: 65,
+  lifeExpectancy: 95,
+  currentSavings: 5000,
+  monthlyContribution: 500,
+  preReturnRate: 7,
+  postReturnRate: 5,
+  inflationRate: 3,
+  retirementBudget: 80,
+  currentIncome: 60000,
+  otherIncome: 1500
+};
+
+function loadDefaults() {
+  document.getElementById('currentAge').value = DEFAULTS.currentAge;
+  document.getElementById('retirementAge').value = DEFAULTS.retirementAge;
+  document.getElementById('lifeExpectancy').value = DEFAULTS.lifeExpectancy;
+  document.getElementById('currentSavings').value = DEFAULTS.currentSavings;
+  document.getElementById('monthlyContribution').value = DEFAULTS.monthlyContribution;
+  document.getElementById('preReturnRate').value = DEFAULTS.preReturnRate;
+  document.getElementById('postReturnRate').value = DEFAULTS.postReturnRate;
+  document.getElementById('inflationRate').value = DEFAULTS.inflationRate;
+  document.getElementById('retirementBudget').value = DEFAULTS.retirementBudget;
+  document.getElementById('currentIncome').value = DEFAULTS.currentIncome;
+  document.getElementById('otherIncome').value = DEFAULTS.otherIncome;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDefaults();
+  calculate();
+});
+
+
 function calculate() {
     // Grab input values
     const currentAge = parseFloat(document.getElementById('currentAge').value);
@@ -100,9 +134,8 @@ function calculate() {
 }
 
 function clearForm() {
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => input.value = '');
-    document.getElementById('chartPanel').style.display = 'none';
+    loadDefaults();
+    calculate();
 }
 
 function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, monthlyContribution, monthlyPreRate, monthlyPostRate, inflatedMonthlyNeed, inflationRate) {
