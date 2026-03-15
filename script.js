@@ -31,6 +31,21 @@ function loadDefaults() {
 document.addEventListener('DOMContentLoaded', () => {
   loadDefaults();
   calculate();
+
+  // Mobile Hamburget bar behavior
+  const navHamburger = document.getElementById('navHamburger');
+  const navLinks = document.getElementById('navLinks');
+
+  navHamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
+
+  // Auto-close menu when nav link is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('show');
+    });
+  });
 });
 
 
