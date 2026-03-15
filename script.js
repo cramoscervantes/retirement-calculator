@@ -1,5 +1,9 @@
 let retirementChart = null;
 
+function isDarkMode() {
+    return document.documentElement.getAttribute('data-theme') === 'dark';
+}
+
 const DEFAULTS = {
   currentAge: 25,
   retirementAge: 65,
@@ -46,6 +50,30 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinks.classList.remove('show');
     });
   });
+
+  // Dark mode toggle
+  const darkModeToggle = document.getElementById('darkModeToggle');
+
+  // Load saved preference
+  if (localStorage.getItem('theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    darkModeToggle.textContent = '☀️';
+  }
+
+  darkModeToggle.addEventListener('click', () => {
+    if (isDarkMode()) {
+        document.documentElement.removeAttribute('data-theme');
+        darkModeToggle.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        darkModeToggle.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+
+    // Re-render chart with new colors
+    calculate();
+  })
 });
 
 
@@ -245,7 +273,9 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: { color: '#1a1a2e' }
+                    labels: { 
+                    color: isDarkMode() ? '#e0e0e0' : '#1a1a2e' 
+                    }
                 },
                 tooltip: {
                     callbacks: {
@@ -256,7 +286,7 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
             scales: {
                 x: {
                     ticks: {
-                        color: '#1a1a2e',
+                        color: isDarkMode() ? '#e0e0e0' : '#1a1a2e',
                         callback: function(value, index) {
                             return index % 5 === 0 ? this.getLabelForValue(value) : '';
                         },
@@ -267,11 +297,11 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
                 },
                 y: {
                     ticks: {
-                        color: '#1a1a2e',
+                        color: isDarkMode() ? 'e0e0e0' : '#1a1a2e',
                         callback: (value) => '$' + Number(value).toLocaleString()
                     },
                     grid: {
-                        color: '#e8e8e8',
+                        color: isDarkMode() ? '#2a2a4a' : '#e8e8e8',
                         lineWidth: 0.8
                     }
                 }
