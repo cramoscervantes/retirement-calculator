@@ -1,4 +1,5 @@
 let retirementChart = null;
+let activeTab = 'graph';
 
 function isDarkMode() {
     return document.documentElement.getAttribute('data-theme') === 'dark';
@@ -343,7 +344,7 @@ function calculate() {
         );
     }
 
-    switchTab('graph');
+    switchTab(activeTab);
 }
 
 function clearForm() {
@@ -610,7 +611,33 @@ function setupToggles(hasWhatIf = false) {
     }
 }
 
+function showTooltip(id, iconEl) {
+    const all = document.querySelectorAll('.tooltip-box');
+    const target = document.getElementById(id);
+    const isVisible = target.classList.contains('visible');
+
+    // Close all first
+    all.forEach(el => el.classList.remove('visible'));
+
+    // If it wasn't open, open it and position it
+    if (!isVisible) {
+        const rect = iconEl.getBoundingClientRect();
+        target.style.top       = (rect.top - 8) + 'px';
+        target.style.left      = rect.left + 'px';
+        target.style.transform = 'translateY(-100%)';
+        target.classList.add('visible');
+    }
+}
+
+// Close tooltip when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.classList.contains('tooltip-icon')) {
+        document.querySelectorAll('.tooltip-box').forEach(el => el.classList.remove('visible'));
+    }
+});
+
 function switchTab(tab) {
+    activeTab = tab;
     document.getElementById('chartPanel').style.display = 'flex';
 
     const graphTab = document.getElementById('tab-graph');

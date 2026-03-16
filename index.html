@@ -215,7 +215,15 @@
                         </thread>
                         <tbody>
                             <tr>
-                                <td class="col-metric">Years Until Retirement</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Years Until Retirement
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-years', this)">?</span>
+                                        <div class="tooltip-box" id="tt-years">
+                                            How many years between your current age and your target retirement age.
+                                        </div>
+                                    </div>
+                                </td>   
                                 <td class="col-current"><span id="yearsResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_yearsResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_yearsResult"></span></td>
@@ -223,7 +231,15 @@
 
                             <!-- Total Contributions -->
                             <tr>
-                                <td class="col-metric">Total Contributions</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Total Contributions
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-contributions', this)">?</span>
+                                        <div class="tooltip-box" id="tt-contributions">
+                                            The total amount you personally put in - your intial savings plus all monthly contributions.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="contributionsResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_contributionsResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_contributionsResult"></span></td>
@@ -231,7 +247,15 @@
 
                             <!-- Interest Earned -->
                             <tr>
-                                <td class="col-metric">Interest Earned</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Interest Earned
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-interest',this)">?</span>
+                                        <div class="tooltip-box" id="tt-interest">
+                                            The growth your money earned from investment returns, not including your own contributions.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="interestResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_interestResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_interestResult"></span></td>
@@ -239,7 +263,15 @@
 
                             <!-- Total Savings at retirement -->
                             <tr>
-                                <td class="col-metric">Total Savings at Retirement</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Total Savings at Retirement
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-total', this)">?</span>
+                                        <div class="tooltip-box" id="tt-total">
+                                            Your projected account balance on the day you retire, in future dollars.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="totalResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_totalResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_totalResult"></span></td>
@@ -247,7 +279,15 @@
 
                             <!-- Inflation-Adujusted Savings -->
                             <tr>
-                                <td class="col-metric">Inflation-Adjusted Savings (Today's $)</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Inflation-Adjusted Savings (Today's $)
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-inflation', this)">?</span>
+                                        <div class="tooltip-box" id="tt-inflation">
+                                            Your retirement balance converted back to today's purchasing power, accounting for inflation.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="inflationAdjustedResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_inflationAdjustedResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_inflationAdjustedResult"></span></td>
@@ -255,7 +295,15 @@
 
                             <!-- Sustainable Monthly Withdrawal -->
                              <tr>
-                                <td class="col-metric">Sustainable Monthly Withdrawal</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Sustainable Monthly Withdrawal
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-withdraw', this)">?</span>
+                                        <div class="tooltip-box" id="tt-withdraw">
+                                            The maximum you can withdrawal monthly without running out of money before your life expectancy.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="monthlyWithdrawalResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_monthlyWithdrawalResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_monthlyWithdrawalResult"></span></td>
@@ -263,7 +311,15 @@
                             
                             <!-- Monthly Income Need -->
                             <tr>
-                                <td class="col-metric">Monthly Income Need at Retirement</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Monthly Income Need at Retirement
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-need', this)">?</span>
+                                        <div class="tooltip-box" id="tt-need">
+                                            Your estimated monthly spending need at retirement, adjusted for inflation.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="monthlyNeedResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_monthlyNeedResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_monthlyNeedResult"></span></td>
@@ -271,7 +327,15 @@
 
                             <!-- Monthly Surplus / Deficit -->
                             <tr>
-                                <td class="col-metric">Monthly Surplus / Deficit</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Monthly Surplus / Deficit
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-surplus', this)">?</span>
+                                        <div class="tooltip-box" id="tt-surplus">
+                                            The difference between what you can withdraw and what you need each month. Positive is good.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="surplusDeficitResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_surplusDeficitResult"></span></td>
                                 <td class="col-impact hidden"><span id="diff_surplusDeficitResult"></span></td>
@@ -282,7 +346,15 @@
                                  it's a text label (On Track / Shortfall), not a number
                                  so a numberic diff doesn't apply here -->
                             <tr>
-                                <td class="col-metric">Retirement Readiness</td>
+                                <td class="col-metric">
+                                    <div class="tooltip-wrap">
+                                        Retirement Readiness
+                                        <span class="tooltip-icon" onclick="showTooltip('tt-readiness', this)">?</span>
+                                        <div class="tooltip-box" id="tt-readiness">
+                                            A quick summary of whether your savings are on track to cover your retirement needs.
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="col-current"><span id="sufficiencyResult"></span></td>
                                 <td class="col-whatif hidden"><span id="wi_sufficiencyResult"></span></td>
                                 <td class="col-impact hidden"></td>
