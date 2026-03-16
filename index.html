@@ -94,7 +94,41 @@
                     <input type="number" id="otherIncome" placeholder="e.g. 1500 (Social Security, Pensions)" min="0">
                 </div>
             </div>
-            <div class="btm-row">
+
+            <!-- What If Section -->
+            <div class="whatif-toggle" onclick="toggleWhatIf()">
+                <span>What If Scenario</span>
+                <span class="whatif-arrow" id="whatifArrow">▼</span>
+            </div>
+
+            <div class="whatif-fields" id="whatifFields">
+                <p class="whatif-hint">Leave any field blank to use your main scenario value.</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="wi_retirementAge">Retirement Age</label>
+                        <input type="number" id="wi_retirementAge" placeholder="e.g. 60" min="30" max="90">
+                    </div>
+                    <div class="form-group">
+                        <label for="wi_currentSavings">Current Savings ($)</label>
+                        <input type="number" id="wi_currentSavings" placeholder="e.g. 10000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="wi_monthlyContribution">Monthly Contribution ($)</label>
+                        <input type="number" id="wi_monthlyContribution" placeholder="e.g. 750" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="wi_preReturnRate">Pre-Retirement Rate of Return (%)</label>
+                        <input type="number" id="wi_preReturnRate" placeholder="e.g. 8" min="0" max="30">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="wi_retirementBudget">Monthly Retirement Budget (% of income)</label>
+                        <input type="number" id="wi_retirementBudget" placeholder="e.g. 70" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-row">
                 <!-- Calculate button-->
                 <button onclick="calculate()">Calculate</button>
                 <!-- Clear Button -->
@@ -131,6 +165,22 @@
                         <span class="toggle-dot contributions"></span>
                         Your Total Contributions
                     </label>
+                    <!-- What if toggles - Hidden until what if is calculated-->
+                    <label class="toggle-label hidden" id="toggleWIProjectedLabel">
+                        <input type="checkbox" id="toggleWIProjected" checked>
+                        <span class="toggle-dot wi-projected"></span>
+                        What If: Projected
+                    </label>
+                    <label class="toggle-label hidden" id="toggleWIPurchasingLabel">
+                        <input type="checkbox" id="toggleWIPurchasing" checked>
+                        <span class="toggle-dot wi-purchasing"></span>
+                        What If: Purch. Power
+                    </label>
+                    <label class="toggle-label hidden" id="toggleWIContributionsLabel">
+                        <input type="checkbox" id="toggleWIContributions" checked>
+                        <span class="toggle-dot wi-contributions"></span>
+                        What If: Contributions
+                    </label>
                 </div>
                 <div class="chart-container">
                     <canvas id="retirementChart"></canvas>
@@ -143,41 +193,69 @@
             <!-- Summary Tab-->
             <div id="tab-summary" class="tab-content hidden">
                 <div class="results" id="summary-results">
+                    <!-- Years Until Retirement-->
                     <div class="result-item">
                         <span>Years Until Retirement:</span>
                         <span class="result-value" id="yearsResult"></span>
+                        <span class="result-whatif hidden" id="wi_yearsResult"></span>
+                        <span class="result-diff hidden" id="diff_yearsResult"></span>
                     </div>
+                    <!-- Total Contributions -->
                     <div class="result-item">
                         <span>Total Contributions:</span>
                         <span class="result-value" id="contributionsResult"></span>
+                        <span class="result-whatif hidden" id="wi_contributionsResult"></span>
+                        <span class="result-diff hidden" id="diff_contributionsResult"></span>
+
                     </div>
+                    <!-- Interest Earned -->
                     <div class="result-item">
                         <span>Interest Earned:</span>
                         <span class="result-value" id="interestResult"></span>
+                        <span class="result-whatif hidden" id="wi_interestResult"></span>
+                        <span class="result-diff hidden" id="diff_interestResult"></span> 
                     </div>
+                    <!-- Total Savings at Retirement -->
                     <div class="result-item">
                         <span>Total Savings at Retirement:</span>
                         <span class="result-value" id="totalResult"></span>
+                        <span class="result-whatif hidden" id="wi_totalResult"></span>
+                        <span class="result-diff hidden" id="diff_totalResult"></span>
                     </div>
+                    <!-- Inflation Adjusted Savings -->
                     <div class="result-item">
                         <span>Inflation-Adjusted Savings (Today's $):</span>
                         <span class="result-value" id="inflationAdjustedResult"></span>
+                        <span class="result-whatif hidden" id="wi_inflationAdjustedResult"></span>
+                        <span class="result-diff hidden" id="diff_inflationAdjustedResult"></span>
                     </div>
+                    <!-- Sustainable Monthly Withdrwal-->
                     <div class="result-item">
                         <span>Sustainable Monthly Withdrawal:</span>
                         <span class="result-value" id="monthlyWithdrawalResult"></span>
+                        <span class="result-whatif hidden" id="wi_monthlyWithdrawalResult"></span>
+                        <span class="result-diff hidden" id="diff_monthlyWithdrawalResult"></span>
                     </div>
+                    <!-- Monthly Income Need -->
                     <div class="result-item">
                         <span>Monthly Income Needed at Retirement:</span>
                         <span class="result-value" id="monthlyNeedResult"></span>
+                        <span class="result-whatif hidden" id="wi_monthlyNeedResult"></span>
+                        <span class="result-diff hidden" id="diff_monthlyNeedResult"></span>
                     </div>
+                    <!-- Monthly Surplus / Deficit -->
                     <div class="result-item">
                         <span>Monthly Surplus / Deficit:</span>
                         <span class="result-value" id="surplusDeficitResult"></span>
+                        <span class="result-whatif hidden" id="wi_surplusDeficitResult"></span>
+                        <span class="result-diff hidden" id="diff_surplusDeficitResult"></span>
                     </div>
+                    <!-- Retirement Readiness -->
                     <div class="result-item">
                         <span>Retirement Readiness:</span>
                         <span class="result-value" id="sufficiencyResult"></span>
+                        <span class="result-whatif hidden" id="wi_sufficiencyResult"></span>
+                        <span class="result-diff hidden" id="diff_sufficiencyResult"></span>
                     </div>
                 </div>
             </div>

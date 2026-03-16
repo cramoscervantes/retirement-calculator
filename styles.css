@@ -507,3 +507,135 @@ button:hover { background: var(--color-primary-hover); }
         height: 320px;
     }
 }
+
+/* What if Toggle Bar */
+.whatif-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-primary-light);
+    border: 2px solid var(--color-primary);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 16px 0 0 0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    color: var(--color-primary);
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+}
+
+.whatif-toggle:hover {
+    background: rgba(233, 69, 96, 0.18);
+    border-color: var(--color-primary-hover);
+}
+
+.whatif-arrow {
+    font-size: var(--font-xs);
+    transition: transform 0.3s ease;
+}
+
+.whatif-arrow.open {
+    transform: rotate(180deg);
+}
+
+/* What If Fields Container */
+.whatif-fields {
+    display: none;
+    border: 2px dashed var(--color-primary);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: var(--color-card);
+    animation: slideDown 0.25s ease;
+}
+
+.whatif-fields.open {
+    display: block;
+}
+
+@keyframes slideDown {
+    from    { opacity: 0; transform: translateY(-8px); }
+    to      { opacity: 1; transform: translateY(0); }
+}
+
+.whatif-hint {
+    font-size: var(--font-xs);
+    color: var(--color-text-muted);
+    margin: 0 0 12px 0;
+    font-style: italic;
+}
+
+/* What IF Chart Toggle Dots */
+.toggle-dot.wi-projected {
+    background: var(--color-accent);
+    outline: 2px dashed var(--color-accent);
+    outline-offset: 2px;
+    opacity: 0.6;
+}
+
+.toggle-dot.wi-purchasing {
+    background: var(--color-primary);
+    outline: 2px dashed var(--color-primary);
+    outline-offset: 2px;
+    opacity: 0.6;
+}
+
+.toggle-dot.wi-contributions {
+    background: var(--color-contributions);
+    outline: 2px dashed var(--color-contributions);
+    outline-offset: 2px;
+    opacity: 0.6;
+}
+
+/* What if Summary Columns */
+.result-whatif {
+    font-size: var(--font-xs);
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+.result-diff {
+    font-size: var(--font-xs);
+    font-weight: 700;
+    padding: 2px 7px;
+    margin-left: 6px;
+    white-space: nowrap;
+}
+
+.result-diff.positive {
+    background: var(--color-accent-light);
+    color: var(--color-accent-success);
+}
+
+.result-diff.negative {
+    background: var(--color-accent-light);
+    color: var(--color-primary-hover);
+}
+
+.result-diff.neutral {
+    background: var(--color-input-bg);
+    color: var(--color-text-muted);
+}
+
+/* Summary Row Layout (What if Expanded) */
+.result-item {
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-start;
+} 
+
+.result-item span:first-child {
+    flex: 1 1 100%;
+    color: var(--color-text-subtle);
+}
+
+.result-item .result-value {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
