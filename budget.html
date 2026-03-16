@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RetireSmart – Budget</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-logo">💰</span>
+            <span class="nav-title">RetireSmart</span>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Calculator</a></li>
+            <li><a href="budget.html" class="active">Budget</a></li>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <div class="nav-actions">
+                <button class="nav-toggle nav-icon" id="darkModeToggle" aria-label="Toggle dark mode">🌙</button>
+            </div>
+            <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">☰</button>
+        </div>
+    </nav>
+
+    <div class="budget-layout">
+
+        <!-- HEADER STRIP -->
+        <div class="budget-header">
+            <h1>Monthly Budget</h1>
+
+            <div class="budget-income-wrap">
+                <label for="takeHomePay">Monthly Take-Home Pay ($)</label>
+                <input type="number" id="takeHomePay" placeholder="e.g. 4500" min="0">
+            </div>
+
+            <div class="budget-stats">
+                <div class="budget-stat">
+                    <span class="budget-stat-label">Total Budgeted</span>
+                    <span class="budget-stat-value" id="totalBudgeted">$0.00</span>
+                </div>
+                <div class="budget-stat">
+                    <span class="budget-stat-label">Remaining</span>
+                    <span class="budget-stat-value" id="totalRemaining">$0.00</span>
+                </div>
+                <div class="budget-stat">
+                    <span class="budget-stat-label">Savings Rate</span>
+                    <span class="budget-stat-value" id="savingsRate">0%</span>
+                </div>
+            </div>
+
+            <!-- Retirement Impact Button -->
+            <button class="btn-retirement-impact" onclick="sendToRetirement()">
+                📈 See Retirement Impact
+            </button>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="budget-main">
+
+            <!-- LEFT: Category Table -->
+            <div class="budget-table-panel">
+                <div class="budget-table-header">
+                    <h2>Expenses</h2>
+                    <button class="btn-add-category" onclick="addCustomCategory()">+ Add Category</button>
+                </div>
+
+                <div class="budget-table-wrap">
+                    <table class="budget-table" id="budgetTable">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Amount ($)</th>
+                                <th>Due Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="budgetTableBody">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RIGHT: Donut Chart -->
+            <div class="budget-chart-panel">
+                <h2>Spending Breakdown</h2>
+                <div class="budget-chart-container">
+                    <canvas id="budgetChart"></canvas>
+                </div>
+                <div id="budgetChartLegend" class="budget-chart-legend"></div>
+            </div>
+
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="budget-calendar-panel">
+            <h2>Bill Calendar</h2>
+            <div class="budget-calendar" id="budgetCalendar">
+                <!-- 31 day grid injected by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <script src="budget.js"></script>
+</body>
+</html>

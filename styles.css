@@ -837,3 +837,367 @@ input.invalid {
     border: 5px solid transparent;
     border-top-color: var(--color-text);
 }
+
+/* Budget Page */
+
+.budget-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* HEADER STRIP */
+.budget-header {
+    background: var(--color-card);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.budget-header h1 {
+    color: var(--color-primary);
+    font-size: var(--font-2xl);
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.budget-income-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.budget-income-wrap label {
+    font-size: var(--font-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.budget-income-wrap input {
+    width: 200px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    font-size: var(--font-md);
+}
+
+.budget-income-wrap input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: var(--color-card);
+}
+
+.budget-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.budget-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.budget-stat-label {
+    font-size: var(--font-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.budget-stat-value {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.btn-retirement-impact {
+    margin-left: auto;
+    padding: 10px 20px;
+    background: var(--color-accent);
+    color: var(--color-text);
+    font-size: var(--font-sm);
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    width: auto;
+}
+
+.btn-retirement-impact:hover {
+    background: var(--color-accent-success);
+    color: var(--color-text-white);
+}
+
+/* MAIN CONTENT */
+.budget-main {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* LEFT: Table Panel */
+.budget-table-panel {
+    background: var(--color-card);
+    border-radius: 16px;
+    padding: 24px;
+    flex: 1.5;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    min-width: 0;
+}
+
+.budget-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.budget-table-header h2 {
+    color: var(--color-primary);
+    font-size: var(--font-xl);
+    margin: 0;
+}
+
+.btn-add-category {
+    padding: 7px 16px;
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: auto;
+}
+
+.btn-add-category:hover {
+    background: var(--color-primary);
+    color: var(--color-text-white);
+}
+
+.budget-table-wrap {
+    overflow-x: auto;
+}
+
+.budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-sm);
+}
+
+.budget-table thead tr {
+    background: var(--color-primary);
+}
+
+.budget-table thead th {
+    color: var(--color-text-white);
+    font-weight: 600;
+    font-size: var(--font-xs);
+    padding: 10px 14px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.budget-table tbody tr {
+    border-bottom: 1px solid var(--color-border-light);
+    transition: background 0.15s;
+}
+
+.budget-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.budget-table tbody tr:hover {
+    background: var(--color-input-bg);
+}
+
+.budget-table tbody td {
+    padding: 10px 14px;
+    color: var(--color-text-subtle);
+    vertical-align: middle;
+}
+
+.budget-table input {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-input-bg);
+    color: var(--color-text);
+    font-size: var(--font-sm);
+}
+
+.budget-table input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.budget-category-name {
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.btn-remove-row {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    width: auto;
+}
+
+.btn-remove-row:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+/* RIGHT: Chart Panel */
+.budget-chart-panel {
+    background: var(--color-card);
+    border-radius: 16px;
+    padding: 24px;
+    flex: 1;
+    box-shadow: 0 4px 20px var(--color-shadow);
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.budget-chart-panel h2 {
+    color: var(--color-primary);
+    font-size: var(--font-xl);
+    margin-bottom: 16px;
+    align-self: flex-start;
+}
+
+.budget-chart-container {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 1;
+    position: relative;
+}
+
+.budget-chart-legend {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-xs);
+    color: var(--color-text-subtle);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* CALENDAR */
+.budget-calendar-panel {
+    background: var(--color-card);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.budget-calendar-panel h2 {
+    color: var(--color-primary);
+    font-size: var(--font-xl);
+    margin-bottom: 16px;
+}
+
+.budget-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-size: var(--font-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    padding: 4px 0;
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    min-height: 70px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-light);
+    padding: 6px;
+    background: var(--color-input-bg);
+    position: relative;
+}
+
+.calendar-day-number {
+    font-size: var(--font-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+}
+
+.calendar-expense-badge {
+    display: block;
+    font-size: 10px;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    border-radius: 4px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+    .budget-main {
+        flex-direction: column;
+    }
+
+    .budget-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-retirement-impact {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .budget-calendar {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .budget-income-wrap input {
+        width: 100%;
+    }
+}
