@@ -168,7 +168,7 @@ button:hover { background: var(--color-primary-hover); }
   background: transparent;
   border: 2px solid var(--color-primary);
   color: var(--color-primary);
-  margin-top: 12px;
+  padding: 10px;
 }
 
 .clear-btn:hover {
