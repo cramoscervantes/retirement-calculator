@@ -759,3 +759,20 @@ button:hover { background: var(--color-primary-hover); }
         width: 40%;
     }
 }
+
+/* Invalid Input Styles */
+input.invalid {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.error-text {
+  color: var(--color-primary);
+  font-size: var(--font-xs);
+  margin-top: 3px;
+  display: none;
+}
+
+.error-text.visible {
+  display: block;
+}

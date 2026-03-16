@@ -40,58 +40,69 @@
                 <div class="form-group full-width">
                     <label for="currentAge">Current Age</label>
                     <input type="number" id="currentAge" placeholder="e.g. 25" min="18" max="80">
+                    <span class="error-text" id="err-currentAge"></span>
                 </div>
 
                 <!-- Annual Pre-Tax Income -->
                 <div class="form-group">
                     <label for="currentIncome">Annual Pre-Tax Income</label>
                     <input type="number" id="currentIncome" placeholder="e.g. 60000" min="0">
+                    <span class="error-text" id="err-currentIncome"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="retirementAge">Retirement Age</label>
                     <input type="number" id="retirementAge" placeholder="e.g. 65" min="30" max="90">
+                    <span class="error-text" id="err-retirementAge"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="currentSavings">Current Savings ($)</label>
-                    <input type="number" id="currentSavings" placeholder="e.g. 5000" min="0"> 
+                    <input type="number" id="currentSavings" placeholder="e.g. 5000" min="0">
+                    <span class="error-text" id="err-currentSavings"></span> 
                 </div>
 
                 <div class="form-group">
                     <label for="monthlyContribution">Monthly Contribution ($)</label>
                     <input type="number" id="monthlyContribution" placeholder="e.g. 500" min="0">
+                    <span class="error-text" id="err-monthlyContribution"></span>
                 </div>
 
                 <!-- Seperate Returns for Pre Retirement and Post Retirement -->
                 <div class="form-group">
                     <label for="preReturnRate">Pre-Retirement Rate of Return (%)</label>
                     <input type="number" id="preReturnRate" placeholder="e.g. 7" min="0" max="30">
+                    <span class="error-text" id="err-preReturnRate"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="postReturnRate">Post-Retirement Rate of Return (%)</label>
                     <input type="number" id="postReturnRate" placeholder="e.g. 5" min="0" max="30">
+                    <span class="error-text" id="err-postReturnRate"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="inflationRate">Inflation Rate (%)</label>
                     <input type="number" id="inflationRate" placeholder="e.g. 3" min="0" max="15">
+                    <span class="error-text" id="err-inflationRate"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="lifeExpectancy">Life Expectancy (age)</label>
                     <input type="number" id="lifeExpectancy" placeholder="e.g. 95" min="60" max="110">
+                    <span class="error-text" id="err-lifeExpectancy"></span>
                 </div>
 
                 <div class="form-group full-width">
                     <label for="retirementBudget">Monthly Retirement Budget (% of current income)</label>
                     <input type="number" id="retirementBudget" placeholder="e.g. 80" min="0" max="100">
+                    <span class="error-text" id="err-retirementBudget"></span>
                 </div>
 
                 <div class="form-group full-width">
                     <label for="otherIncome">Other Monthly Retirement Income ($)</label>
                     <input type="number" id="otherIncome" placeholder="e.g. 1500 (Social Security, Pensions)" min="0">
+                    <span class="error-text" id="err-otherIncome"></span>
                 </div>
             </div>
 

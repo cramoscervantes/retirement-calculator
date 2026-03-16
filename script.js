@@ -18,6 +18,71 @@ const DEFAULTS = {
   otherIncome: 1500
 };
 
+// Field validation rules and functions
+const FIELD_RULES = {
+    currentAge:           { label: 'Current Age',          min: 18,  max: 80   },
+    currentIncome:        { label: 'Annual Income',        min: 1,   max: null },
+    retirementAge:        { label: 'Retirement Age',       min: 30,  max: 90   },
+    currentSavings:       { label: 'Current Savings',      min: 0,   max: null },
+    monthlyContribution:  { label: 'Monthly Contribution', min: 0,   max: null },
+    preReturnRate:        { label: 'Pre-Retirement Rate',  min: 0,   max: 30   },
+    postReturnRate:       { label: 'Post-Retirement Rate', min: 0,   max: 30   },
+    inflationRate:        { label: 'Inflation Rate',       min: 0,   max: 15   },
+    lifeExpectancy:       { label: 'Life Expectancy',      min: 60,  max: 110  },
+    retirementBudget:     { label: 'Retirement Budget',    min: 1,   max: 100  },
+    otherIncome:          { label: 'Other Monthly Income', min: 0,   max: null }
+};
+
+function validateField(id) {
+    const input = document.getElementById(id);
+    const errEl = document.getElementById('err-' + id);
+    const rule  = FIELD_RULES[id];
+    const val   = parseFloat(input.value);
+    let msg     = '';
+
+    if (input.value.trim() === '' || isNaN(val)) {
+        msg = rule.label + ' is required.';
+    } else if (rule.min !== null && val < rule.min) {
+        msg = rule.label + ' must be at least ' + rule.min + '.';
+    } else if (rule.max !== null && val > rule.max) {
+        msg = rule.label + ' must be at most ' + rule.max + '.';
+    }
+
+    input.classList.toggle('invalid', msg !== '');
+    errEl.textContent = msg;
+    errEl.classList.toggle('visible', msg !== '');
+    return msg === '';
+}
+
+function validateAll() {
+    let valid = true;
+    Object.keys(FIELD_RULES).forEach(id => {
+        if (!validateField(id)) valid = false;
+    });
+
+    const currentAge     = parseFloat(document.getElementById('currentAge').value);
+    const retirementAge  = parseFloat(document.getElementById('retirementAge').value);
+    const lifeExpectancy = parseFloat(document.getElementById('lifeExpectancy').value);
+
+    if (!isNaN(currentAge) && !isNaN(retirementAge) && retirementAge <= currentAge) {
+        const el = document.getElementById('err-retirementAge');
+        el.textContent = 'Retirement Age must be greater than Current Age.';
+        el.classList.add('visible');
+        document.getElementById('retirementAge').classList.add('invalid');
+        valid = false;
+    }
+
+    if (!isNaN(retirementAge) && !isNaN(lifeExpectancy) && lifeExpectancy <= retirementAge) {
+        const el = document.getElementById('err-lifeExpectancy');
+        el.textContent = 'Life Expectancy must be greater than Retirement Age.';
+        el.classList.add('visible');
+        document.getElementById('lifeExpectancy').classList.add('invalid');
+        valid = false;
+    }
+
+    return valid;
+}
+
 // What If Toggle
 function toggleWhatIf() {
     const fields = document.getElementById('whatifFields');
@@ -151,9 +216,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Re-render chart with new colors
     calculate();
-  })
-});
+  });
 
+    // Attach Blur listeners for live validation
+    Object.keys(FIELD_RULES).forEach(id => {
+        document.getElementById(id).addEventListener('blur', () => validateField(id));
+    });
+});
 
 function calculate() {
     // Grab input values
@@ -170,23 +239,7 @@ function calculate() {
     const otherIncome = parseFloat(document.getElementById('otherIncome').value);
 
     // Basic Validation
-    if (isNaN(currentAge) || isNaN(retirementAge) || isNaN(lifeExpectancy) ||
-        isNaN(currentSavings) || isNaN(monthlyContribution) || isNaN(preReturnRate) ||
-        isNaN(postReturnRate) || isNaN(inflationRate) || isNaN(retirementBudget) ||
-        isNaN(currentIncome) || isNaN(otherIncome)) {
-        alert('Please fill in ALL fields before calculating.');
-        return;
-    }
-
-    if (retirementAge <= currentAge) {
-        alert('Retirement age must be greater than your current age.');
-        return;
-    }
-
-    if (lifeExpectancy <= retirementAge) {
-        alert('Retirement age must be greater than current age.');
-        return;
-    }
+    if (!validateAll()) return;
 
     // Run main scenario
     const main = runScenario({
