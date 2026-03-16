@@ -225,7 +225,7 @@ button:hover { background: var(--color-primary-hover); }
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   width: 100%;
 }
 
@@ -603,6 +603,7 @@ button:hover { background: var(--color-primary-hover); }
     font-size: var(--font-xs);
     font-weight: 700;
     padding: 2px 7px;
+    border-radius: 12px;
     margin-left: 6px;
     white-space: nowrap;
 }
@@ -613,7 +614,7 @@ button:hover { background: var(--color-primary-hover); }
 }
 
 .result-diff.negative {
-    background: var(--color-accent-light);
+    background: var(--color-primary-light);
     color: var(--color-primary-hover);
 }
 
@@ -639,3 +640,122 @@ button:hover { background: var(--color-primary-hover); }
     color: var(--color-primary);
 }
 
+/* Summary Table Wrapper  */
+/* Why: Allows horizontal scroll on small screens without breaking layout */
+.results-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--color-border-light);
+    margin-top: 16px;
+}
+
+/*  Results Table Base  */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-sm);
+}
+
+.results-table thead tr {
+    background: var(--color-primary);
+}
+
+.results-table thead th {
+    color: var(--color-text-white);
+    font-weight: 600;
+    font-size: var(--font-xs);
+    padding: 12px 16px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.results-table tbody tr {
+    border-bottom: 1px solid var(--color-border-light);
+    transition: background 0.15s;
+}
+
+.results-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.results-table tbody tr:hover {
+    background: var(--color-input-bg);
+}
+
+.results-table tbody td {
+    padding: 12px 16px;
+    color: var(--color-text-subtle);
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Column Specific Styles */
+.col-metric {
+    color: var(--color-text-subtle);
+    font-weight: 500;
+    width: 30%;
+}
+
+.col-current { width: 22%; }
+.col-whatif { width: 22%; }
+.col-impact { width: 26%; }
+
+.col-current span {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: var(--font-sm);
+}
+
+/* Why: What If values shown in accent green to visually separate from main */
+.col-whatif span {
+    color: var(--color-accent-success);
+    font-weight: 700;
+    font-size: var(--font-sm);
+}
+
+.col-impact span {
+    font-weight: 700;
+    font-size: var(--font-xs);
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+/*  Table Column Visibility  */
+/* Why: Default .hidden uses display:none which works for block elements,
+   but table cells need this explicit override to hide correctly */
+.results-table th.hidden,
+.results-table td.hidden {
+    display: none;
+}
+
+/* Impact Badge Colors  */
+.col-impact .result-diff.positive {
+    background: var(--color-accent-light);
+    color: var(--color-accent-success);
+}
+
+.col-impact .result-diff.negative {
+    background: var(--color-primary-light);
+    color: var(--color-primary-hover);
+}
+
+.col-impact .result-diff.neutral {
+    background: var(--color-input-bg);
+    color: var(--color-text-muted);
+}
+
+/* Mobile Summary Table  */
+@media (max-width: 900px) {
+    .results-table thead th,
+    .results-table tbody td {
+        padding: 10px 12px;
+        font-size: var(--font-xs);
+    }
+
+    .col-metric {
+        width: 40%;
+    }
+}

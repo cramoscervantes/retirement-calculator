@@ -192,71 +192,92 @@
 
             <!-- Summary Tab-->
             <div id="tab-summary" class="tab-content hidden">
-                <div class="results" id="summary-results">
-                    <!-- Years Until Retirement-->
-                    <div class="result-item">
-                        <span>Years Until Retirement:</span>
-                        <span class="result-value" id="yearsResult"></span>
-                        <span class="result-whatif hidden" id="wi_yearsResult"></span>
-                        <span class="result-diff hidden" id="diff_yearsResult"></span>
-                    </div>
-                    <!-- Total Contributions -->
-                    <div class="result-item">
-                        <span>Total Contributions:</span>
-                        <span class="result-value" id="contributionsResult"></span>
-                        <span class="result-whatif hidden" id="wi_contributionsResult"></span>
-                        <span class="result-diff hidden" id="diff_contributionsResult"></span>
+                <div class="results-table-wrap" id="summary-results">
+                    <table class="results-table">
+                        <thread>
+                            <tr>
+                                <th class="col-metric">Metric</th>
+                                <th class="col-current">Current Savings</th>
+                                <th class="col-whatif hidden" id="th-whatif">What If</th>
+                                <th class="col-impact hidden" id="th-impact">Impact</th>
+                            </tr>
+                        </thread>
+                        <tbody>
+                            <tr>
+                                <td class="col-metric">Years Until Retirement</td>
+                                <td class="col-current"><span id="yearsResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_yearsResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_yearsResult"></span></td>
+                            </tr>
 
-                    </div>
-                    <!-- Interest Earned -->
-                    <div class="result-item">
-                        <span>Interest Earned:</span>
-                        <span class="result-value" id="interestResult"></span>
-                        <span class="result-whatif hidden" id="wi_interestResult"></span>
-                        <span class="result-diff hidden" id="diff_interestResult"></span> 
-                    </div>
-                    <!-- Total Savings at Retirement -->
-                    <div class="result-item">
-                        <span>Total Savings at Retirement:</span>
-                        <span class="result-value" id="totalResult"></span>
-                        <span class="result-whatif hidden" id="wi_totalResult"></span>
-                        <span class="result-diff hidden" id="diff_totalResult"></span>
-                    </div>
-                    <!-- Inflation Adjusted Savings -->
-                    <div class="result-item">
-                        <span>Inflation-Adjusted Savings (Today's $):</span>
-                        <span class="result-value" id="inflationAdjustedResult"></span>
-                        <span class="result-whatif hidden" id="wi_inflationAdjustedResult"></span>
-                        <span class="result-diff hidden" id="diff_inflationAdjustedResult"></span>
-                    </div>
-                    <!-- Sustainable Monthly Withdrwal-->
-                    <div class="result-item">
-                        <span>Sustainable Monthly Withdrawal:</span>
-                        <span class="result-value" id="monthlyWithdrawalResult"></span>
-                        <span class="result-whatif hidden" id="wi_monthlyWithdrawalResult"></span>
-                        <span class="result-diff hidden" id="diff_monthlyWithdrawalResult"></span>
-                    </div>
-                    <!-- Monthly Income Need -->
-                    <div class="result-item">
-                        <span>Monthly Income Needed at Retirement:</span>
-                        <span class="result-value" id="monthlyNeedResult"></span>
-                        <span class="result-whatif hidden" id="wi_monthlyNeedResult"></span>
-                        <span class="result-diff hidden" id="diff_monthlyNeedResult"></span>
-                    </div>
-                    <!-- Monthly Surplus / Deficit -->
-                    <div class="result-item">
-                        <span>Monthly Surplus / Deficit:</span>
-                        <span class="result-value" id="surplusDeficitResult"></span>
-                        <span class="result-whatif hidden" id="wi_surplusDeficitResult"></span>
-                        <span class="result-diff hidden" id="diff_surplusDeficitResult"></span>
-                    </div>
-                    <!-- Retirement Readiness -->
-                    <div class="result-item">
-                        <span>Retirement Readiness:</span>
-                        <span class="result-value" id="sufficiencyResult"></span>
-                        <span class="result-whatif hidden" id="wi_sufficiencyResult"></span>
-                        <span class="result-diff hidden" id="diff_sufficiencyResult"></span>
-                    </div>
+                            <!-- Total Contributions -->
+                            <tr>
+                                <td class="col-metric">Total Contributions</td>
+                                <td class="col-current"><span id="contributionsResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_contributionsResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_contributionsResult"></span></td>
+                            </tr>
+
+                            <!-- Interest Earned -->
+                            <tr>
+                                <td class="col-metric">Interest Earned</td>
+                                <td class="col-current"><span id="interestResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_interestResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_interestResult"></span></td>
+                            </tr>
+
+                            <!-- Total Savings at retirement -->
+                            <tr>
+                                <td class="col-metric">Total Savings at Retirement</td>
+                                <td class="col-current"><span id="totalResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_totalResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_totalResult"></span></td>
+                            </tr>
+
+                            <!-- Inflation-Adujusted Savings -->
+                            <tr>
+                                <td class="col-metric">Inflation-Adjusted Savings (Today's $)</td>
+                                <td class="col-current"><span id="inflationAdjustedResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_inflationAdjustedResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_inflationAdjustedResult"></span></td>
+                            </tr>
+
+                            <!-- Sustainable Monthly Withdrawal -->
+                             <tr>
+                                <td class="col-metric">Sustainable Monthly Withdrawal</td>
+                                <td class="col-current"><span id="monthlyWithdrawalResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_monthlyWithdrawalResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_monthlyWithdrawalResult"></span></td>
+                             </tr>
+                            
+                            <!-- Monthly Income Need -->
+                            <tr>
+                                <td class="col-metric">Monthly Income Need at Retirement</td>
+                                <td class="col-current"><span id="monthlyNeedResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_monthlyNeedResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_monthlyNeedResult"></span></td>
+                            </tr>
+
+                            <!-- Monthly Surplus / Deficit -->
+                            <tr>
+                                <td class="col-metric">Monthly Surplus / Deficit</td>
+                                <td class="col-current"><span id="surplusDeficitResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_surplusDeficitResult"></span></td>
+                                <td class="col-impact hidden"><span id="diff_surplusDeficitResult"></span></td>
+                            </tr>
+
+                            <!-- Retirement Readiness -->
+                            <!-- Impact column is permentaly hidden on this row -
+                                 it's a text label (On Track / Shortfall), not a number
+                                 so a numberic diff doesn't apply here -->
+                            <tr>
+                                <td class="col-metric">Retirement Readiness</td>
+                                <td class="col-current"><span id="sufficiencyResult"></span></td>
+                                <td class="col-whatif hidden"><span id="wi_sufficiencyResult"></span></td>
+                                <td class="col-impact hidden"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

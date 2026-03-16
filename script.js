@@ -238,7 +238,10 @@ function calculate() {
             wiEl.classList.remove('hidden');
             diffEl.textContent = (diff >= 0 ? '+' : '') + (isYears ? diff + ' yrs' : fmt(diff));
             diffEl.className   = 'result-diff ' + (diff > 0 ? 'positive' : diff < 0 ? 'negative' : 'neutral');
-            diffEl.classList.remove('hidden');
+            
+            // show parent <td> columns 
+            if (wiEl && wiEl.closest('td')) wiEl.closest('td').classList.remove('hidden');
+            if (diffEl && diffEl.closest('td')) diffEl.closest('td').classList.remove('hidden');
         }
 
         showDiff('diff_yearsResult',             'wi_yearsResult',             main.yearsToRetirement,          wiScenario.yearsToRetirement,          true);
@@ -252,8 +255,13 @@ function calculate() {
 
         const wiSuffEl = document.getElementById('wi_sufficiencyResult');
         wiSuffEl.textContent = wiScenario.monthlySurplusDeficit >= 0 ? 'On Track' : 'Shortfall';
-        wiSuffEl.classList.remove('hidden');
-        document.getElementById('diff_sufficiencyResult').classList.add('hidden');
+        wiSuffEl.closest('td').classList.remove('hidden');
+        const diffSuffTd = document.getElementById('diff_sufficiencyResult');
+        if (diffSuffTd && diffSuffTd.closest('td')) diffSuffTd.closest('td').classList.add('hidden');
+        
+        // Show What If Impact column headers
+        document.getElementById('th-whatif').classList.remove('hidden');
+        document.getElementById('th-impact').classList.remove('hidden');
 
         renderChart(
             currentAge, retirementAge, lifeExpectancy,
@@ -270,7 +278,9 @@ function calculate() {
         );
 
     } else {
-        document.querySelectorAll('.result-whatif, .result-diff').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.col-whatif, .col-impact').forEach(el => el.classList.add('hidden'));
+        document.getElementById('th-whatif').classList.add('hidden');
+        document.getElementById('th-impact').classList.add('hidden');
         renderChart(
             currentAge, retirementAge, lifeExpectancy,
             currentSavings, monthlyContribution,
@@ -383,6 +393,16 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
 
     retirementChart = new Chart(ctx, {
         type: 'line',
+        plugins : [{
+            id: 'legendSpacing',
+            beforeInit(chart) {
+                const originalFit = chart.legend.fit.bind(chart.legend);
+                chart.legend.fit = function() {
+                    originalFit();
+                    this.height += 25;
+                };
+            }
+        }],
         data: {
             labels: labels,
             datasets: [
@@ -448,7 +468,7 @@ function renderChart(currentAge, retirementAge, lifeExpectancy, currentSavings, 
             plugins: {
                 legend: {
                     labels: { 
-                    color: isDarkMode() ? '#e0e0e0' : '#1a1a2e' 
+                    color: isDarkMode() ? '#e0e0e0' : '#1a1a2e'
                     }
                 },
                 tooltip: {
