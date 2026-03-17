@@ -61,6 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => navLinks.classList.remove('show'));
     });
+
+    updateCuts();
+
+    calculateBudgetRetirement();
 });
 
 // STORAGE
@@ -101,13 +105,17 @@ function renderTable() {
             <td>
                 ${item.isCustom
                     ? `<input type="text" value="${item.name}" placeholder="Category name"
-                        onchange="updateField(${index}, 'name', this.value)">`
+                    onchange="updateField(${index}, 'name', this.value)">`
                     : `<span class="budget-category-name">${item.name}</span>`
                 }
             </td>
             <td>
-                <input type="number" value="${item.amount}" placeholder="0.00" min="0"
-                    onchange="updateField(${index}, 'amount', this.value)">
+                <input type="number" value="${item.amount}" placeholder="0.00" min="0" step="0.01"
+                    onchange="updateField(${index}, 'amount', this.value)" class="amount-input">
+            </td>
+            <td>
+                <input type="number" value="0" min="0" step="0.01" max="${item.amount || 9999}"
+                    onchange="updateCuts()" class="cut-input">
             </td>
             <td>
                 <input type="number" value="${item.dueDate}" placeholder="Day (1-31)" min="1" max="31"
@@ -169,8 +177,18 @@ function updateStats() {
     remainingEl.style.color = remaining < 0
         ? 'var(--color-primary)'
         : 'var(--color-accent-success)';
+}
 
-    renderChart();
+// Spending Cuts
+function updateCuts() {
+    let totalCuts = 0;
+    document.querySelectorAll('.cut-input').forEach(input => {
+        totalCuts += parseFloat(input.value) || 0;
+    });
+    document.getElementById('totalCuts').textContent = `$${totalCuts.toFixed(2)}`;
+    
+    // Trigger retirement panel update
+    calculateBudgetRetirement();
 }
 
 // DONUT CHART
@@ -287,4 +305,130 @@ function sendToRetirement() {
     // Store values for the calculator to pick up
     localStorage.setItem('budgetToRetirement', JSON.stringify({ monthlyContrib }));
     window.location.href = 'index.html';
+}
+
+// Retirement Calcualtor
+const BUDGET_CALC_DEFAULTS = {
+    currentAge: 30,
+    retirementAge: 65,
+    lifeExpectancy: 95,
+    currentSavings: 0,  // Auto-populated from budget
+    monthlyContribution: 0,  // Auto from budget
+    preReturnRate: 7,
+    postReturnRate: 5,
+    inflationRate: 3,
+    retirementBudget: 80,
+    currentIncome: 60000,
+    otherIncome: 1500
+};
+
+// Run a single scenario, returns all result values
+function runScenario(params) {
+    const {
+        currentAge, retirementAge, lifeExpectancy,
+        currentSavings, monthlyContribution,
+        preReturnRate, postReturnRate,
+        inflationRate, retirementBudget,
+        currentIncome, otherIncome
+    } = params;
+
+    const yearsToRetirement   = retirementAge - currentAge;
+    const monthsToRetirement  = yearsToRetirement * 12;
+    const monthlyPreRate      = preReturnRate / 12;
+    const monthlyPostRate     = postReturnRate / 12;
+
+    const fvSavings = currentSavings * Math.pow(1 + monthlyPreRate, monthsToRetirement);
+    const fvContributions = monthlyPreRate === 0
+        ? monthlyContribution * monthsToRetirement
+        : monthlyContribution * ((Math.pow(1 + monthlyPreRate, monthsToRetirement) - 1) / monthlyPreRate);
+
+    const nominalSavingsAtRetirement = fvSavings + fvContributions;
+    const inflationAdjustedSavings   = nominalSavingsAtRetirement / Math.pow(1 + inflationRate, yearsToRetirement);
+
+    const yearsInRetirement   = lifeExpectancy - retirementAge;
+    const monthsInRetirement  = yearsInRetirement * 12;
+
+    const monthlySpendingNeed  = ((currentIncome / 12) * retirementBudget) - otherIncome;
+    const inflatedMonthlyNeed  = monthlySpendingNeed * Math.pow(1 + inflationRate, yearsToRetirement);
+
+    const sustainableMonthlyWithdrawal = monthlyPostRate === 0
+        ? nominalSavingsAtRetirement / monthsInRetirement
+        : (nominalSavingsAtRetirement * monthlyPostRate) / (1 - Math.pow(1 + monthlyPostRate, -monthsInRetirement));
+
+    const monthlySurplusDeficit = sustainableMonthlyWithdrawal - inflatedMonthlyNeed;
+    const totalContributions    = currentSavings + (monthlyContribution * monthsToRetirement);
+    const interestEarned        = nominalSavingsAtRetirement - totalContributions;
+
+    return {
+        yearsToRetirement, totalContributions, interestEarned,
+        nominalSavingsAtRetirement, inflationAdjustedSavings,
+        sustainableMonthlyWithdrawal, inflatedMonthlyNeed,
+        monthlySurplusDeficit, monthlyPreRate, monthlyPostRate,
+        inflatedMonthlyNeed
+    };
+}
+
+function calculateBudgetRetirement() {
+    const currentAge = parseFloat(document.getElementById('budgetCurrentAge').value) || 30;
+    const retirementAge = parseFloat(document.getElementById('budgetRetirementAge').value) || 65;
+    const preReturnRate = (parseFloat(document.getElementById('budgetAnnualReturn').value) || 7) / 100;
+    const inflationRate = (parseFloat(document.getElementById('budgetInflation').value) || 3) / 100;
+
+    const savingsRow = budgetData.find(i => i.name === 'Savings');
+    const currentSavingsAmt = parseFloat(savingsRow?.amount) || 0;
+    let totalCuts = 0;
+    document.querySelectorAll('.cut-input').forEach(input => totalCuts += parseFloat(input.value) || 0);
+
+    const postReturnRate = preReturnRate * 0.8;
+
+    // ✅ FIXED: All named keys, no bare numbers
+    const mainScenario = runScenario({
+        currentAge,
+        retirementAge,
+        lifeExpectancy: 95,
+        currentSavings: 0,
+        monthlyContribution: currentSavingsAmt,
+        preReturnRate,
+        postReturnRate,
+        inflationRate,
+        retirementBudget: 0.80,
+        currentIncome: 60000,
+        otherIncome: 1500
+    });
+
+    // ✅ FIXED: All named keys, no bare numbers
+    const whatIfScenario = runScenario({
+        currentAge,
+        retirementAge,
+        lifeExpectancy: 95,
+        currentSavings: 0,
+        monthlyContribution: currentSavingsAmt + totalCuts,
+        preReturnRate,
+        postReturnRate,
+        inflationRate,
+        retirementBudget: 0.80,
+        currentIncome: 60000,
+        otherIncome: 1500
+    });
+
+    const fmt = (n) => '$' + Math.round(Number(n)).toLocaleString();
+
+    document.getElementById('currentSavingsDisplay').textContent = fmt(currentSavingsAmt);
+    document.getElementById('whatIfSavingsDisplay').textContent = fmt(currentSavingsAmt + totalCuts);
+
+    document.getElementById('budgetTotalResult').textContent = fmt(mainScenario.nominalSavingsAtRetirement);
+    document.getElementById('budgetWiTotalResult').textContent = fmt(whatIfScenario.nominalSavingsAtRetirement);
+    document.getElementById('budgetDiffTotalResult').textContent = whatIfScenario.nominalSavingsAtRetirement > mainScenario.nominalSavingsAtRetirement ?
+        '+' + fmt(whatIfScenario.nominalSavingsAtRetirement - mainScenario.nominalSavingsAtRetirement) :
+        fmt(whatIfScenario.nominalSavingsAtRetirement - mainScenario.nominalSavingsAtRetirement);
+
+    document.getElementById('budgetMonthlyResult').textContent = fmt(mainScenario.sustainableMonthlyWithdrawal);
+    document.getElementById('budgetWiMonthlyResult').textContent = fmt(whatIfScenario.sustainableMonthlyWithdrawal);
+    document.getElementById('budgetDiffMonthlyResult').textContent = whatIfScenario.sustainableMonthlyWithdrawal > mainScenario.sustainableMonthlyWithdrawal ?
+        '+' + fmt(whatIfScenario.sustainableMonthlyWithdrawal - mainScenario.sustainableMonthlyWithdrawal) :
+        fmt(whatIfScenario.sustainableMonthlyWithdrawal - mainScenario.sustainableMonthlyWithdrawal);
+
+    document.getElementById('budgetSufficiencyResult').textContent = mainScenario.monthlySurplusDeficit >= 0 ? 'On Track' : 'Shortfall';
+    document.getElementById('budgetWiSufficiencyResult').textContent = whatIfScenario.monthlySurplusDeficit >= 0 ? 'On Track' : 'Shortfall';
+    document.getElementById('budgetDiffSufficiencyResult').textContent = whatIfScenario.monthlySurplusDeficit >= mainScenario.monthlySurplusDeficit ? 'Better' : 'Worse';
 }
